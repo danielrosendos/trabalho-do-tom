@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Container, Button, Form, Content } from "./styles";
 import InputDefault from "~/components/Inputs/InputDefault";
+import history from "~/service/history";
 import service from "~/service/service";
 
 export default function FormLogin({
@@ -12,15 +13,16 @@ export default function FormLogin({
   const formikRef = useRef(null);
 
   const [files, setFiles] = useState([]);
-  function handleSubmit(values) {
-    console.log(values);
+  async function handleSubmit(values) {
 
-    if (initialValues.name) {
-      service.post();
+    if (initialValues.id) {
+      await service.put('atualizarTarefa', values);
     } else {
-      service.post();
+      await service.post('adicionarTarefa', values);
     }
     formikRef.current.setSubmitting(false);
+
+    history.replace('/');
   }
 
   return (

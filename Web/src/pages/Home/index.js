@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import history from "~/service/history";
 import service from "~/service/service";
@@ -19,59 +19,34 @@ import {
 } from "./styles";
 
 function Home() {
-  const [cards, setCards] = useState([
-    {
-      email: "asdfsd@asdasd.com",
-      projeto: "10",
-      type_teste: "Asds",
-      responsavel: "asdasd",
-      escopo: "asdas",
-      link: "sdas",
-      versao: "2",
-    },
-    {
-      email: "asdfsd@asdasd.com",
-      projeto: "10",
-      type_teste: "Asds",
-      responsavel: "asdasd",
-      escopo: "asdas",
-      link: "sdas",
-      versao: "2",
-    },
-    {
-      email: "asdfsd@asdasd.com",
-      projeto: "10",
-      type_teste: "Asds",
-      responsavel: "asdasd",
-      escopo: "asdas",
-      link: "sdas",
-      versao: "2",
-    },
-    {
-      email: "asdfsd@asdasd.com",
-      projeto: "10",
-      type_teste: "Asds",
-      responsavel: "asdasd",
-      escopo: "asdas",
-      link: "sdas",
-      versao: "2",
-    },
-    {
-      email: "asdfsd@asdasd.com",
-      projeto: "10",
-      type_teste: "Asds",
-      responsavel: "asdasd",
-      escopo: "asdas",
-      link: "sdas",
-      versao: "2",
-    },
-  ]);
+
+  useEffect(() => {
+    handleGetData();
+  }, []);
+
+  async function handleGetData() {
+      await service.get('listarTarefas')
+          .then((result) => setCards(result.data.data))
+          .catch((error) => {
+              console.log(error);
+          });
+  }
+
+  const [cards, setCards] = useState([]);
+
   const handleEdit = (training) => {
     history.push("register", training);
   };
-  const handleDelete = (training) => {
-    service.delete()
+
+  const handleDelete = (card) => {
+    service.delete('deletarTarefa', {data: card})
+        .catch((error) => {
+          console.log(error);
+        });
+
+    setCards(cards.filter((cardFilter) => cardFilter !== card));
   };
+
   return (
     <Container>
       <Title>Tela inicial</Title>

@@ -36,9 +36,9 @@ export const fields = [
     width: 48,
   },
   {
-    placeholder: "Digite o Tipo de teste",
-    label: "Tipo de teste",
-    name: "type_teste",
+    placeholder: "Digite o Responsável",
+    label: "Tipo de responsável",
+    name: "responsavel",
     width: 48
   },
   {
